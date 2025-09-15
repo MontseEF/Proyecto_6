@@ -9,7 +9,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Montserrat Espinoza Flores",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^6.0.0",

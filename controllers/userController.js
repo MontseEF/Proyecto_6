@@ -45,7 +45,7 @@ exports.login = async (req, res, next) => {
 };
 
 exports.verifyToken = async (req, res) => {
-  // Si llegó aquí con authMiddleware es válido
+  
   res.json({ valid: true, userId: req.user.id, email: req.user.email });
 };
 
@@ -57,7 +57,7 @@ exports.updateProfile = async (req, res, next) => {
 
     if (name) user.name = name;
     if (email) user.email = email;
-    if (password) user.password = password; // se hashea en pre('save')
+    if (password) user.password = password; 
     await user.save();
 
     res.json({ message: 'Perfil actualizado', user: { id: user._id, name: user.name, email: user.email } });
