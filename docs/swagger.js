@@ -15,5 +15,5 @@ module.exports = function setupSwagger(app) {
     swaggerUi.setup(null, { swaggerUrl: '/api/docs.json' })
   );
 
-  console.log('📚 Swagger listo en /api/docs (JSON en /api/docs.json)');
+  console.log('Swagger listo en /api/docs (JSON en /api/docs.json)');
 }
