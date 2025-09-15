@@ -9,6 +9,9 @@ const productRoutes = require('./routes/productRoutes');
 const app = express();
 app.use(cors());
 app.use(express.json());
+const setupSwagger = require('./docs/swagger');
+setupSwagger(app);
+
 
 // Conexión a MongoDB
 mongoose.connect(process.env.MONGO_URI)

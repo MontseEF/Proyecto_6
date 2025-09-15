@@ -1,0 +1,138 @@
+openapi: 3.0.3
+info:
+  title: Proyecto 6 - Auth & Productos
+  version: "1.0.0"
+  description: API con autenticación JWT y CRUD de productos.
+servers:
+  - url: http://localhost:3000
+paths:
+  /api/user/register:
+    post:
+      summary: Registrar usuario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, email, password]
+              properties:
+                name: { type: string, example: Montse }
+                email: { type: string, example: montse@test.com }
+                password: { type: string, example: 123456 }
+      responses:
+        "201": { description: Usuario creado }
+  /api/user/login:
+    post:
+      summary: Login de usuario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email: { type: string, example: montse@test.com }
+                password: { type: string, example: 123456 }
+      responses:
+        "200": { description: Token JWT }
+  /api/user/verifytoken:
+    get:
+      summary: Verificar token (requiere JWT)
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200": { description: Token válido }
+  /api/user/update:
+    put:
+      summary: Actualizar perfil (requiere JWT)
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name: { type: string }
+                email: { type: string }
+                password: { type: string }
+      responses:
+        "200": { description: Perfil actualizado }
+
+  /api/product/create:
+    post:
+      summary: Crear producto (requiere JWT)
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, price]
+              properties:
+                name: { type: string, example: Tetera }
+                description: { type: string, example: Hierro fundido }
+                price: { type: number, example: 19990 }
+      responses:
+        "201": { description: Producto creado }
+  /api/product/readall:
+    get:
+      summary: Listar productos
+      responses:
+        "200": { description: Lista de productos }
+  /api/product/readone/{id}:
+    get:
+      summary: Ver un producto por id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        "200": { description: Producto }
+        "404": { description: No encontrado }
+  /api/product/update/{id}:
+    put:
+      summary: Actualizar producto (dueña, con JWT)
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name: { type: string }
+                description: { type: string }
+                price: { type: number }
+      responses:
+        "200": { description: Actualizado }
+        "403": { description: No autorizado }
+        "404": { description: No encontrado }
+  /api/product/delete/{id}:
+    delete:
+      summary: Eliminar producto (dueña, con JWT)
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        "200": { description: Eliminado }
+        "403": { description: No autorizado }
+        "404": { description: No encontrado }
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
